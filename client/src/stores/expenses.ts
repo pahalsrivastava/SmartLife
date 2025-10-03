@@ -6,7 +6,7 @@ export type Expense = {
   name: string;
   amount: number;
   category: string;
-  date: string; // ISO date
+  date: string;
 };
 
 type ExpenseState = {

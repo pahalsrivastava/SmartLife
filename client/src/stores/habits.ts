@@ -6,7 +6,7 @@ export type Habit = {
   id: string;
   name: string;
   frequency: 'daily' | 'weekly';
-  datesCompleted: string[]; // ISO dates
+  datesCompleted: string[];
 };
 
 type HabitState = {
