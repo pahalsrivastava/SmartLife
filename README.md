@@ -29,6 +29,7 @@ It helps users manage daily habits, monitor expenses, and visualize their progre
 ---
 
 ## 📂 Project Structure
+```
 habit-expense-tracker/
 ├── client/ # Frontend (Vite + React + Apollo Client)
 │ ├── src/
@@ -39,6 +40,7 @@ habit-expense-tracker/
 │ ├── metadata/
 │ └── docker-compose.yml
 └── README.md
+```
 
 ## ⚙️ Setup Instructions
 
