@@ -1,6 +1,6 @@
 version: 3
-endpoint: http://localhost:8080
+endpoint: ${HASURA_ENDPOINT}
 metadata_directory: metadata
 actions:
   kind: synchronous
-  handler_webhook_baseurl: http://localhost:3000
+  handler_webhook_baseurl: ${HASURA_ACTIONS_WEBHOOK_BASEURL}
