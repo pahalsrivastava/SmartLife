@@ -1,6 +1,6 @@
 import React from 'react';
 import { createTheme, CssBaseline, ThemeProvider, useMediaQuery } from '@mui/material';
-import { deepmerge } from '@mui/utils';
+import type { ThemeOptions } from '@mui/material/styles';
 
 type ColorMode = 'light' | 'dark';
 
@@ -14,7 +14,7 @@ export const ColorModeContext = React.createContext<ColorModeContextValue>({
   toggle: () => {},
 });
 
-const baseDesignTokens = (mode: ColorMode) => ({
+const baseDesignTokens = (mode: ColorMode): ThemeOptions => ({
   palette: {
     mode,
     ...(mode === 'light'
@@ -55,15 +55,16 @@ const baseDesignTokens = (mode: ColorMode) => ({
       styleOverrides: {
         root: {
           borderBottom: '1px solid rgba(255,255,255,0.06)',
-          background: mode === 'light'
-            ? 'linear-gradient(180deg, rgba(255,255,255,0.90) 0%, rgba(255,255,255,0.70) 100%)'
-            : 'linear-gradient(180deg, rgba(18,20,26,0.80) 0%, rgba(18,20,26,0.60) 100%)',
+          background:
+            mode === 'light'
+              ? 'linear-gradient(180deg, rgba(255,255,255,0.90) 0%, rgba(255,255,255,0.70) 100%)'
+              : 'linear-gradient(180deg, rgba(18,20,26,0.80) 0%, rgba(18,20,26,0.60) 100%)',
           backdropFilter: 'blur(10px)',
         },
       },
     },
     MuiButton: {
-      defaultProps: { variant: 'contained' },
+      defaultProps: { variant: 'contained' as 'contained' | 'text' | 'outlined' },
       styleOverrides: {
         root: {
           textTransform: 'none',
@@ -99,12 +100,7 @@ export function AppThemeProvider({ children }: { children: React.ReactNode }) {
     [mode]
   );
 
-  const theme = React.useMemo(() => {
-    const base = createTheme(baseDesignTokens(mode));
-    return deepmerge(base, {
-      cssVariables: true,
-    });
-  }, [mode]);
+  const theme = React.useMemo(() => createTheme(baseDesignTokens(mode)), [mode]);
 
   React.useEffect(() => {
     document.body.style.background = gradientBackground(mode);

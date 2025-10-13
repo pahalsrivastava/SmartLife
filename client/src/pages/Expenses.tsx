@@ -1,5 +1,18 @@
 import { useState } from 'react';
-import { Button, Card, CardContent, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Stack, TextField, Typography,} from '@mui/material';
+import {
+  Button,
+  Card,
+  CardContent,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Stack,
+  TextField,
+  Typography,
+  Box,
+} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import dayjs from 'dayjs';
@@ -15,34 +28,36 @@ export default function Expenses() {
   return (
     <Stack spacing={3}>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Typography variant="h4" fontWeight={800}>Expenses</Typography>
+        <Typography variant="h4" fontWeight={800}>
+          Expenses
+        </Typography>
         <Button startIcon={<AddIcon />} onClick={() => setOpen(true)}>
           Add Expense
         </Button>
       </Stack>
 
-      <Grid container spacing={2}>
+      <Stack spacing={2}>
         {expenses.map((e) => (
-          <Grid item xs={12} md={6} lg={4} key={e.id}>
-            <Card>
-              <CardContent>
-                <Stack direction="row" justifyContent="space-between" alignItems="center">
-                  <Stack>
-                    <Typography variant="h6">{e.name}</Typography>
-                    <Typography color="text.secondary">{e.category} • {new Date(e.date).toDateString()}</Typography>
-                  </Stack>
-                  <Stack direction="row" alignItems="center" spacing={1}>
-                    <Typography variant="h6">${e.amount.toFixed(2)}</Typography>
-                    <IconButton color="error" onClick={() => deleteExpense(e.id)}>
-                      <DeleteIcon />
-                    </IconButton>
-                  </Stack>
+          <Card key={e.id}>
+            <CardContent>
+              <Stack direction="row" justifyContent="space-between" alignItems="center">
+                <Stack>
+                  <Typography variant="h6">{e.name}</Typography>
+                  <Typography color="text.secondary">
+                    {e.category} • {new Date(e.date).toDateString()}
+                  </Typography>
                 </Stack>
-              </CardContent>
-            </Card>
-          </Grid>
+                <Stack direction="row" alignItems="center" spacing={1}>
+                  <Typography variant="h6">${e.amount.toFixed(2)}</Typography>
+                  <IconButton color="error" onClick={() => deleteExpense(e.id)}>
+                    <DeleteIcon />
+                  </IconButton>
+                </Stack>
+              </Stack>
+            </CardContent>
+          </Card>
         ))}
-      </Grid>
+      </Stack>
 
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Add Expense</DialogTitle>

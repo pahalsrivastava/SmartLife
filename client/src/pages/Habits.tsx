@@ -9,7 +9,6 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Grid,
   IconButton,
   MenuItem,
   Stack,
@@ -34,50 +33,41 @@ export default function Habits() {
     <Stack spacing={3}>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Typography variant="h4" fontWeight={800}>Habits</Typography>
-        <Button startIcon={<AddIcon />} onClick={() => setOpen(true)}>
-          Add Habit
-        </Button>
+        <Button startIcon={<AddIcon />} onClick={() => setOpen(true)}>Add Habit</Button>
       </Stack>
 
-      <Grid container spacing={2}>
+      <Stack spacing={2}>
         {habits.map((h) => {
           const done = h.datesCompleted.includes(today);
           return (
-            <Grid item xs={12} md={6} lg={4} key={h.id}>
-              <Card>
-                <CardContent>
-                  <Stack direction="row" justifyContent="space-between" alignItems="center">
-                    <Box>
-                      <Typography variant="h6">{h.name}</Typography>
-                      <Chip size="small" label={h.frequency} sx={{ mt: 1 }} />
-                    </Box>
-                    <Stack direction="row" spacing={1} alignItems="center">
-                      <IconButton color={done ? 'success' : 'default'} onClick={() => toggleToday(h.id)}>
-                        <CheckCircleIcon />
-                      </IconButton>
-                      <IconButton color="error" onClick={() => deleteHabit(h.id)}>
-                        <DeleteIcon />
-                      </IconButton>
-                    </Stack>
+            <Card key={h.id}>
+              <CardContent>
+                <Stack direction="row" justifyContent="space-between" alignItems="center">
+                  <Box>
+                    <Typography variant="h6">{h.name}</Typography>
+                    <Chip size="small" label={h.frequency} sx={{ mt: 1 }} />
+                  </Box>
+                  <Stack direction="row" spacing={1} alignItems="center">
+                    <IconButton color={done ? 'success' : 'default'} onClick={() => toggleToday(h.id)}>
+                      <CheckCircleIcon />
+                    </IconButton>
+                    <IconButton color="error" onClick={() => deleteHabit(h.id)}>
+                      <DeleteIcon />
+                    </IconButton>
                   </Stack>
-                </CardContent>
-              </Card>
-            </Grid>
+                </Stack>
+              </CardContent>
+            </Card>
           );
         })}
-      </Grid>
+      </Stack>
 
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Add Habit</DialogTitle>
         <DialogContent>
           <Stack mt={1} spacing={2}>
             <TextField label="Name" value={name} onChange={(e) => setName(e.target.value)} fullWidth />
-            <TextField
-              label="Frequency"
-              select
-              value={frequency}
-              onChange={(e) => setFrequency(e.target.value as any)}
-            >
+            <TextField select label="Frequency" value={frequency} onChange={(e) => setFrequency(e.target.value as 'daily' | 'weekly')}>
               <MenuItem value="daily">Daily</MenuItem>
               <MenuItem value="weekly">Weekly</MenuItem>
             </TextField>

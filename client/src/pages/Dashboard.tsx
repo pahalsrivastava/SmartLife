@@ -43,9 +43,7 @@ export default function Dashboard() {
         Here's a summary of your habits and expenses.
       </Typography>
 
-      {/* Replace Grid with Stack + Box */}
       <Stack direction="row" flexWrap="wrap" spacing={3}>
-        {/* Habits Today */}
         <Box sx={{ flex: '1 1 300px', minWidth: 300, maxWidth: 500 }}>
           <Card sx={{ p: 3, height: '100%', boxShadow: 4, borderRadius: 3 }}>
             <CardContent>
@@ -65,7 +63,6 @@ export default function Dashboard() {
           </Card>
         </Box>
 
-        {/* Weekly Progress */}
         <Box sx={{ flex: '1 1 300px', minWidth: 300, maxWidth: 500 }}>
           <Card sx={{ p: 3, height: '100%', boxShadow: 4, borderRadius: 3 }}>
             <CardContent sx={{ mt: 2 }}>
@@ -85,7 +82,6 @@ export default function Dashboard() {
           </Card>
         </Box>
 
-        {/* Spending */}
         <Box sx={{ flex: '1 1 300px', minWidth: 300, maxWidth: 500 }}>
           <Card sx={{ p: 3, height: '100%', boxShadow: 4, borderRadius: 3 }}>
             <CardContent>
