@@ -4,17 +4,7 @@ import PaidIcon from '@mui/icons-material/Paid';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useHabitStore } from '../stores/habits';
 import { useExpenseStore } from '../stores/expenses';
-import {
-  ResponsiveContainer,
-  AreaChart,
-  Area,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Tooltip,
-  BarChart,
-  Bar,
-} from 'recharts';
+import { ResponsiveContainer, AreaChart, Area, CartesianGrid, XAxis, YAxis, Tooltip, BarChart, Bar } from 'recharts';
 import dayjs from 'dayjs';
 
 export default function Dashboard() {

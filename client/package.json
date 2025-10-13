@@ -10,13 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@clerk/clerk-react": "^5.50.0",
+    "@clerk/clerk-react": "^5.51.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.3.4",
     "@mui/lab": "^7.0.1-beta.18",
     "@mui/material": "^7.3.4",
     "@mui/x-date-pickers": "^8.12.0",
+    "@supabase/supabase-js": "^2.75.0",
     "dayjs": "^1.11.18",
     "notistack": "^3.0.2",
     "react": "^19.1.1",
