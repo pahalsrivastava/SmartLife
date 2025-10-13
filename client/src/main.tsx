@@ -2,18 +2,31 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
+import { ClerkProvider } from '@clerk/clerk-react';
 import { AppThemeProvider } from './theme/ThemeProvider';
 import App from './App';
 import './index.css';
 
+const clerkPublishableKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY as string | undefined;
+
+const AppRoot = (
+  <AppThemeProvider>
+    <SnackbarProvider maxSnack={3} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </SnackbarProvider>
+  </AppThemeProvider>
+);
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <AppThemeProvider>
-      <SnackbarProvider maxSnack={3} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </SnackbarProvider>
-    </AppThemeProvider>
+    {clerkPublishableKey ? (
+      <ClerkProvider publishableKey={clerkPublishableKey} afterSignOutUrl="/">
+        {AppRoot}
+      </ClerkProvider>
+    ) : (
+      AppRoot
+    )}
   </React.StrictMode>
 );
