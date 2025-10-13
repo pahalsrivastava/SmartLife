@@ -44,10 +44,10 @@ export default function Landing() {
             </Typography>
             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ pt: 2 }}>
               <Button size="large" component={RouterLink} to="/sign-up" variant="contained">
-                Get started 
+                Sign Up 
               </Button>
               <Button size="large" component={RouterLink} to="/sign-in" variant="outlined">
-                I already have an account
+                Sign in
               </Button>
             </Stack>
           </Stack>
