@@ -98,7 +98,6 @@ export default function Dashboard() {
   );
 }
 
-// ----------------- Charts -----------------
 function BoxChartArea({ data }: { data: { day: string; completed: number }[] }) {
   return (
     <div style={{ width: '100%', height: 180 }}>
