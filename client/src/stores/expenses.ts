@@ -19,7 +19,7 @@ export const useExpenseStore = create<ExpenseState>()(
   persist(
     (set) => ({
       expenses: [
-        { id: 'e1', name: 'Groceries', amount: 54.32, category: 'Food', date: new Date().toISOString() },
+        { id: 'e1', name: 'Groceried', amount: 54.32, category: 'Food', date: new Date().toISOString() },
         { id: 'e2', name: 'Gym', amount: 24.99, category: 'Health', date: new Date().toISOString() },
       ],
       addExpense: (e) => set((s) => ({ expenses: [...s.expenses, { id: crypto.randomUUID(), ...e }] })),
