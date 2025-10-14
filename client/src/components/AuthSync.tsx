@@ -1,4 +1,27 @@
 import { useEffect } from 'react';
+import { useAuth, useUser } from '@clerk/clerk-react';
+import { CURRENT_USER_ID_STORAGE_KEY } from '../utils/userScopedStorage';
+
+export default function AuthSync() {
+  const { isLoaded, isSignedIn } = useAuth();
+  const { user } = useUser();
+
+  useEffect(() => {
+    if (!isLoaded) return;
+    const nextUserId = isSignedIn ? user?.id ?? 'anon' : 'anon';
+    try {
+      window.localStorage.setItem(CURRENT_USER_ID_STORAGE_KEY, nextUserId);
+    } catch {
+      // ignore
+    }
+    // Trigger a tick so persisted stores will pick the new scoped keys on next access.
+    // Consumers should read fresh state after auth transitions.
+  }, [isLoaded, isSignedIn, user?.id]);
+
+  return null;
+}
+
+import { useEffect } from 'react';
 import { useAuth } from '@clerk/clerk-react';
 import { CURRENT_USER_ID_STORAGE_KEY } from '../utils/userScopedStorage';
 

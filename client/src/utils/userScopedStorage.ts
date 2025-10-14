@@ -23,22 +23,7 @@ export const userScopedStorage: StateStorage = {
   getItem: (name: string): string | null => {
     if (typeof window === 'undefined') return null;
     const scopedKey = getScopedKey(name);
-    const ls = window.localStorage;
-    let value = ls.getItem(scopedKey);
-    if (value === null) {
-      // Adopt legacy value if present, then delete legacy to avoid adopting for other users
-      const legacy = ls.getItem(name);
-      if (legacy !== null) {
-        try {
-          ls.setItem(scopedKey, legacy);
-          ls.removeItem(name);
-          value = legacy;
-        } catch {
-          // ignore quota or access errors
-        }
-      }
-    }
-    return value;
+    return window.localStorage.getItem(scopedKey);
   },
   setItem: (name: string, value: string): void => {
     if (typeof window === 'undefined') return;
