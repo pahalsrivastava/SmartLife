@@ -24,8 +24,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     {clerkPublishableKey ? (
       <ClerkProvider
         publishableKey={clerkPublishableKey}
-        afterSignInUrl="/"
-        afterSignUpUrl="/"
+        afterSignInUrl="/dashboard"
+        afterSignUpUrl="/dashboard"
         afterSignOutUrl="/"
       >
         {AppRoot}
