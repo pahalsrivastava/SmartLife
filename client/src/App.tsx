@@ -29,7 +29,7 @@ function DashboardWrapper() {
 
   if (!isLoaded || !user) return null;
 
-  return <Dashboard userId={user.id} />;
+  return <Dashboard clerkId={user.id} />;
 }
 
 export default function App() {

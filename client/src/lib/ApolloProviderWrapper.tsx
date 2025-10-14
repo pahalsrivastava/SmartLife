@@ -9,7 +9,7 @@ const ApolloProviderWrapper: React.FC<{ children: React.ReactNode }> = ({ childr
 
   useEffect(() => {
     if (!isLoaded) return;
-    getToken({ template: "hasura" }).then((t) => setClient(createApolloClient(t ?? null)));
+    getToken({ template: "hasura" }).then((t) => setClient(createApolloClient(t ?? undefined)));
   }, [isLoaded, getToken]);
 
   if (!client) return null;

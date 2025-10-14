@@ -7,31 +7,17 @@ import dayjs from "dayjs";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 
-const GET_USER_DASHBOARD = gql`
-  query GetUserDashboard($userId: uuid!) {
-    habits(where: { user_id: { _eq: $userId } }) {
-      id
-      title
-      habit_logs(where: { completed: { _eq: true } }) {
-        date
-      }
-    }
-    expenses(where: { user_id: { _eq: $userId } }) {
-      id
-      amount
-      spent_at
-    }
-  }
-`;
-
-type HabitLog = {
-  date: string;
-};
-
 type Habit = {
   id: string;
   title: string;
-  habit_logs: HabitLog[];
+  start_date: string;
+};
+
+type HabitLog = {
+  id: string;
+  habit_id: string;
+  date: string;
+  completed: boolean;
 };
 
 type Expense = {
@@ -40,44 +26,72 @@ type Expense = {
   spent_at: string;
 };
 
-type DashboardData = {
+type UserData = {
   habits: Habit[];
+  habit_logs: HabitLog[];
   expenses: Expense[];
 };
 
-type DashboardProps = {
-  userId: string;
+type QueryResult = {
+  users: UserData[];
 };
 
-export default function Dashboard({ userId }: DashboardProps) {
-  const { data, loading, error } = useQuery<DashboardData>(GET_USER_DASHBOARD, {
-    variables: { userId },
+const GET_USER_DATA = gql`
+  query GetUserData($clerkId: String!) {
+    users(where: { clerk_id: { _eq: $clerkId } }) {
+      habits {
+        id
+        title
+        start_date
+      }
+      habit_logs {
+        id
+        habit_id
+        date
+        completed
+      }
+      expenses {
+        id
+        amount
+        spent_at
+      }
+    }
+  }
+`;
+
+export default function Dashboard({ clerkId }: { clerkId: string }) {
+  const { data, loading, error } = useQuery<QueryResult>(GET_USER_DATA, {
+    variables: { clerkId },
   });
 
   if (loading) return <p>Loading dashboard...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
-  const habits = data?.habits ?? [];
-  const expenses = data?.expenses ?? [];
+  const user = data?.users[0];
+  if (!user) return <p>No data found for this user.</p>;
+
+  const habits = user.habits ?? [];
+  const habitLogs = user.habit_logs ?? [];
+  const expenses = user.expenses ?? [];
 
   const today = dayjs().format("YYYY-MM-DD");
-  const habitsDoneToday = habits.filter(h =>
-    h.habit_logs.some(log => log.date === today)
+  const habitsDoneToday = habitLogs.filter(
+    (h) => h.completed && h.date === today
   ).length;
 
   const last7 = [...Array(7)].map((_, i) => {
     const d = dayjs().subtract(6 - i, "day");
     const key = d.format("YYYY-MM-DD");
 
-    const spent = expenses
-      .filter(e => e.spent_at.slice(0, 10) === key)
-      .reduce((a, b) => a + Number(b.amount), 0);
-
-    const completed = habits.filter(h =>
-      h.habit_logs.some(log => log.date === key)
+    const completed = habitLogs.filter(
+      (h) => h.completed && h.date === key
     ).length;
 
-    return { day: d.format("ddd"), spent: Number(spent.toFixed(2)), completed };
+    const spent = expenses
+      .filter((e) => e.spent_at.slice(0, 10) === key)
+      .reduce((acc, e) => acc + Number(e.amount), 0);
+
+    return { day: d.format("ddd"), completed, spent: Number(spent.toFixed(2)) };
   });
 
   return (
@@ -94,7 +108,12 @@ export default function Dashboard({ userId }: DashboardProps) {
         <Box sx={{ flex: "1 1 300px", minWidth: 300, maxWidth: 500 }}>
           <Card sx={{ p: 3, height: "100%", boxShadow: 4, borderRadius: 3 }}>
             <CardContent>
-              <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                sx={{ mb: 2 }}
+              >
                 <Typography variant="h6" fontWeight="bold">
                   Habits Today
                 </Typography>
@@ -110,24 +129,41 @@ export default function Dashboard({ userId }: DashboardProps) {
           </Card>
         </Box>
 
+        {/* Weekly Progress */}
         <Box sx={{ flex: "1 1 300px", minWidth: 300, maxWidth: 500 }}>
           <Card sx={{ p: 3, height: "100%", boxShadow: 4, borderRadius: 3 }}>
             <CardContent sx={{ mt: 2 }}>
-              <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 5 }}>
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                sx={{ mb: 5 }}
+              >
                 <Typography variant="h6" sx={{ p: 2 }}>
                   Weekly Progress
                 </Typography>
-                <Chip icon={<TrendingUpIcon />} color="primary" label="Last 7 days" sx={{ fontSize: "0.9rem", px: 1 }} />
+                <Chip
+                  icon={<TrendingUpIcon />}
+                  color="primary"
+                  label="Last 7 days"
+                  sx={{ fontSize: "0.9rem", px: 1 }}
+                />
               </Stack>
               <BoxChartArea data={last7} />
             </CardContent>
           </Card>
         </Box>
 
+        {/* Spending */}
         <Box sx={{ flex: "1 1 300px", minWidth: 300, maxWidth: 500 }}>
           <Card sx={{ p: 3, height: "100%", boxShadow: 4, borderRadius: 3 }}>
             <CardContent>
-              <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 5 }}>
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                sx={{ mb: 5 }}
+              >
                 <Typography variant="h6">Spending (7d)</Typography>
                 <Chip icon={<PaidIcon />} color="secondary" label="USD" />
               </Stack>
