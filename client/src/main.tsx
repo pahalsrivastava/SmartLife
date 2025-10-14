@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { ClerkProvider } from '@clerk/clerk-react';
+import AuthSync from './components/AuthSync';
 import { BrowserRouter } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
 import { AppThemeProvider } from './theme/ThemeProvider';
@@ -13,6 +14,7 @@ const AppRoot = (
   <AppThemeProvider>
     <SnackbarProvider maxSnack={3} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
       <BrowserRouter>
+        <AuthSync />
         <App />
       </BrowserRouter>
     </SnackbarProvider>

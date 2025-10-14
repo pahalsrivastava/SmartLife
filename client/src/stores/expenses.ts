@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import { userScopedStorage } from '../utils/userScopedStorage';
 
 export type Expense = {
   id: string;
@@ -25,6 +26,9 @@ export const useExpenseStore = create<ExpenseState>()(
       addExpense: (e) => set((s) => ({ expenses: [...s.expenses, { id: crypto.randomUUID(), ...e }] })),
       deleteExpense: (id) => set((s) => ({ expenses: s.expenses.filter((x) => x.id !== id) })),
     }),
-    { name: 'expense-store' }
+    {
+      name: 'expense-store',
+      storage: createJSONStorage(() => userScopedStorage),
+    }
   )
 );

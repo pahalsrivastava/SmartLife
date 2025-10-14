@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import { userScopedStorage } from '../utils/userScopedStorage';
 import dayjs from 'dayjs';
 
 export type Habit = {
@@ -44,6 +45,9 @@ export const useHabitStore = create<HabitState>()(
         set({ habits });
       },
     }),
-    { name: 'habit-store' }
+    {
+      name: 'habit-store',
+      storage: createJSONStorage(() => userScopedStorage),
+    }
   )
 );
