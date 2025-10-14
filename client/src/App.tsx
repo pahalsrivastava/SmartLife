@@ -10,12 +10,13 @@ import Settings from './pages/Settings';
 import Landing from './pages/Landing';
 import SignInPage from './pages/SignIn';
 import SignUpPage from './pages/SignUp';
+import ApolloProviderWrapper from './lib/ApolloProviderWrapper';
 
 function Protected({ children }: { children: React.ReactNode }) {
   const { isLoaded, isSignedIn } = useAuth();
   const location = useLocation();
 
-  if (!isLoaded) return null;
+  if (!isLoaded) return null; 
 
   if (!isSignedIn) {
     return <Navigate to="/sign-in" state={{ from: location }} replace />;
@@ -38,13 +39,14 @@ export default function App() {
       <Route path="/" element={<Landing />} />
       <Route path="/sign-in" element={<SignInPage />} />
       <Route path="/sign-up" element={<SignUpPage />} />
-
       <Route
         element={
           <Protected>
-            <MainLayout>
-              <Outlet />
-            </MainLayout>
+            <ApolloProviderWrapper>
+              <MainLayout>
+                <Outlet />
+              </MainLayout>
+            </ApolloProviderWrapper>
           </Protected>
         }
       >
@@ -54,7 +56,6 @@ export default function App() {
         <Route path="/reports" element={<Reports />} />
         <Route path="/settings" element={<Settings />} />
       </Route>
-
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
