@@ -12,7 +12,7 @@ export default function SignInPage() {
         </Typography>
         {!hasClerkKey ? (
           <Alert severity="warning">
-            Authentication is not configured. Set <code>VITE_CLERK_PUBLISHABLE_KEY</code> in your environment.
+            Authentication is not configured. 
           </Alert>
         ) : (
           <SignIn routing="path" path="/sign-in" signUpUrl="/sign-up" afterSignInUrl="/dashboard" />

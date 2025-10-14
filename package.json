@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "node-fetch": "^3.3.2",
+    "svix": "^1.77.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.7.2",
+    "@vercel/node": "^5.3.26"
+  }
+}
