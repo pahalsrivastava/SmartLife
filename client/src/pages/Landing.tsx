@@ -17,10 +17,8 @@ import { useUser, useClerk, SignInButton, SignUpButton } from "@clerk/clerk-reac
 
 export default function Landing() {
   const { mode } = useColorMode();
-  const { isSignedIn, isLoaded } = useUser();
+  const { isSignedIn } = useUser();
   const { signOut } = useClerk();
-
-  if (!isLoaded) return <div>Loading...</div>;
 
   return (
     <Box>
