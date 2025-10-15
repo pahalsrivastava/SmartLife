@@ -19,7 +19,6 @@ const LandingWrapper: React.FC = () => {
       navigate("/dashboard");
     }
   }, [isLoaded, isSignedIn, navigate]);
-
   return <Landing />;
 };
 
