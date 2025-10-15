@@ -104,7 +104,6 @@ export default function Dashboard({ clerkId }: { clerkId: string }) {
       </Typography>
 
       <Stack direction="row" flexWrap="wrap" spacing={3}>
-        {/* Habits Today */}
         <Box sx={{ flex: "1 1 300px", minWidth: 300, maxWidth: 500 }}>
           <Card sx={{ p: 3, height: "100%", boxShadow: 4, borderRadius: 3 }}>
             <CardContent>
@@ -129,7 +128,6 @@ export default function Dashboard({ clerkId }: { clerkId: string }) {
           </Card>
         </Box>
 
-        {/* Weekly Progress */}
         <Box sx={{ flex: "1 1 300px", minWidth: 300, maxWidth: 500 }}>
           <Card sx={{ p: 3, height: "100%", boxShadow: 4, borderRadius: 3 }}>
             <CardContent sx={{ mt: 2 }}>
@@ -154,7 +152,6 @@ export default function Dashboard({ clerkId }: { clerkId: string }) {
           </Card>
         </Box>
 
-        {/* Spending */}
         <Box sx={{ flex: "1 1 300px", minWidth: 300, maxWidth: 500 }}>
           <Card sx={{ p: 3, height: "100%", boxShadow: 4, borderRadius: 3 }}>
             <CardContent>
