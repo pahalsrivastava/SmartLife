@@ -1,62 +1,91 @@
-import { Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom';
-import React from 'react';
-import { useAuth, useUser } from '@clerk/clerk-react';
-import MainLayout from './layouts/MainLayout';
-import Dashboard from './pages/Dashboard';
-import Habits from './pages/Habits';
-import Expenses from './pages/Expenses';
-import Reports from './pages/Reports';
-import Settings from './pages/Settings';
-import Landing from './pages/Landing';
-import SignInPage from './pages/SignIn';
-import SignUpPage from './pages/SignUp';
-import ApolloProviderWrapper from './lib/ApolloProviderWrapper';
+import React from "react";
+import { Routes, Route, Navigate, Outlet, useNavigate } from "react-router-dom";
+import { SignedIn, SignedOut, useUser } from "@clerk/clerk-react";
+import Landing from "./pages/Landing";
+import SignInPage from "./pages/SignInPage";
+import SignUpPage from "./pages/SignUpPage";
+import Dashboard from "./pages/Dashboard";
+import Expenses from "./pages/Expenses";
+import Habits from "./pages/Habits";
+import MainLayout from "./layouts/MainLayout";
+import ApolloProviderWrapper from "./lib/ApolloProviderWrapper";
 
-function Protected({ children }: { children: React.ReactNode }) {
-  const { isLoaded, isSignedIn } = useAuth();
-  const location = useLocation();
+const LandingWrapper: React.FC = () => {
+  const { isSignedIn, isLoaded } = useUser();
+  const navigate = useNavigate();
 
-  if (!isLoaded) return null; 
+  React.useEffect(() => {
+    if (isLoaded && isSignedIn) {
+      navigate("/dashboard");
+    }
+  }, [isLoaded, isSignedIn, navigate]);
 
-  if (!isSignedIn) {
-    return <Navigate to="/sign-in" state={{ from: location }} replace />;
-  }
+  return <Landing />;
+};
 
-  return <>{children}</>;
-}
-
-function DashboardWrapper() {
+const DashboardWrapper: React.FC = () => {
   const { user, isLoaded } = useUser();
-
-  if (!isLoaded || !user) return null;
-
+  if (!isLoaded || !user) return <div>Loading...</div>;
   return <Dashboard clerkId={user.id} />;
-}
+};
+
+const ProtectedLayout: React.FC<{ children?: React.ReactNode }> = ({ children }) => (
+  <ApolloProviderWrapper>
+    <MainLayout>
+      {children ? children : <Outlet />}
+    </MainLayout>
+  </ApolloProviderWrapper>
+);
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Landing />} />
-      <Route path="/sign-in" element={<SignInPage />} />
-      <Route path="/sign-up" element={<SignUpPage />} />
+      <Route path="/" element={<LandingWrapper />} />
+      <Route
+        path="/sign-in"
+        element={
+          <SignedOut>
+            <SignInPage />
+          </SignedOut>
+        }
+      />
+      <Route
+        path="/sign-up"
+        element={
+          <SignedOut>
+            <SignUpPage />
+          </SignedOut>
+        }
+      />
       <Route
         element={
-          <Protected>
-            <ApolloProviderWrapper>
-              <MainLayout>
-                <Outlet />
-              </MainLayout>
-            </ApolloProviderWrapper>
-          </Protected>
+          <SignedIn>
+            <ProtectedLayout>
+              <Outlet />
+            </ProtectedLayout>
+          </SignedIn>
         }
       >
         <Route path="/dashboard" element={<DashboardWrapper />} />
-        <Route path="/habits" element={<Habits />} />
         <Route path="/expenses" element={<Expenses />} />
-        <Route path="/reports" element={<Reports />} />
-        <Route path="/settings" element={<Settings />} />
+        <Route path="/habits" element={<Habits />} />
       </Route>
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route
+        path="*"
+        element={
+          <SignedIn>
+            <Navigate to="/dashboard" replace />
+          </SignedIn>
+        }
+      />
+      <Route
+        path="*"
+        element={
+          <SignedOut>
+            <Navigate to="/" replace />
+          </SignedOut>
+        }
+      />
     </Routes>
   );
 }
