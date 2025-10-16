@@ -13,7 +13,6 @@ type HabitLog = { id: string; habit_id: string; date: string; completed: boolean
 type Expense = { id: string; amount: number; spent_at: string };
 type UserData = { habits: Habit[]; habit_logs: HabitLog[]; expenses: Expense[] };
 type QueryResult = { users: UserData[] };
-
 const GET_USER_DATA = gql`
   query GetUserData($clerkId: String!) {
     users(where: { clerk_id: { _eq: $clerkId } }) {
@@ -23,7 +22,6 @@ const GET_USER_DATA = gql`
     }
   }
 `;
-
 export default function Dashboard({ clerkId }: { clerkId: string }) {
   const { user: clerkUser, isLoaded } = useUser();
   const { data, loading, error } = useQuery<QueryResult>(GET_USER_DATA, { variables: { clerkId } });
@@ -53,7 +51,6 @@ export default function Dashboard({ clerkId }: { clerkId: string }) {
 
   return (
     <Stack spacing={5}>
-      {/* Top bar with username */}
       <Box sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
         <Typography variant="subtitle1" fontWeight={600}>
           {clerkUser?.firstName
@@ -63,11 +60,9 @@ export default function Dashboard({ clerkId }: { clerkId: string }) {
             : "Hi, User!"}
         </Typography>
       </Box>
-
       <Typography variant="h4" fontWeight={800}>
         Here's a summary of your habits and expenses
       </Typography>
-
       <Stack direction="row" flexWrap="wrap" spacing={3}>
         <Box sx={{ flex: "1 1 300px", minWidth: 300, maxWidth: 500 }}>
           <Card sx={{ p: 3, height: "100%", boxShadow: 4, borderRadius: 3 }}>
@@ -81,7 +76,6 @@ export default function Dashboard({ clerkId }: { clerkId: string }) {
             </CardContent>
           </Card>
         </Box>
-
         <Box sx={{ flex: "1 1 300px", minWidth: 300, maxWidth: 500 }}>
           <Card sx={{ p: 3, height: "100%", boxShadow: 4, borderRadius: 3 }}>
             <CardContent sx={{ mt: 2 }}>
@@ -93,7 +87,6 @@ export default function Dashboard({ clerkId }: { clerkId: string }) {
             </CardContent>
           </Card>
         </Box>
-
         <Box sx={{ flex: "1 1 300px", minWidth: 300, maxWidth: 500 }}>
           <Card sx={{ p: 3, height: "100%", boxShadow: 4, borderRadius: 3 }}>
             <CardContent>
