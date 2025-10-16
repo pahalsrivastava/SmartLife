@@ -1,14 +1,4 @@
-import {
-  AppBar,
-  Box,
-  Button,
-  Container,
-  Stack,
-  Toolbar,
-  Typography,
-  Card,
-  CardContent,
-} from "@mui/material";
+import { AppBar, Box, Button, Container, Stack, Toolbar, Typography, Card, CardContent} from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import InsightsIcon from "@mui/icons-material/Insights";
@@ -22,7 +12,6 @@ export default function Landing() {
 
   return (
     <Box>
-      {/* AppBar */}
       <AppBar elevation={0} position="sticky" color="transparent">
         <Toolbar sx={{ maxWidth: 1200, mx: "auto", width: "100%" }}>
           <Typography variant="h6" sx={{ fontWeight: 800, flexGrow: 1 }}>
@@ -50,8 +39,6 @@ export default function Landing() {
           </Stack>
         </Toolbar>
       </AppBar>
-
-      {/* Hero Section */}
       <Box
         sx={{
           pt: { xs: 10, md: 14 },
@@ -86,8 +73,6 @@ export default function Landing() {
           </Stack>
         </Container>
       </Box>
-
-      {/* Feature Cards */}
       <Container maxWidth="lg" sx={{ py: { xs: 8, md: 12 } }}>
         <Box
           sx={{
@@ -112,7 +97,6 @@ export default function Landing() {
               </Stack>
             </CardContent>
           </Card>
-
           <Card>
             <CardContent>
               <Stack spacing={2}>
@@ -129,7 +113,6 @@ export default function Landing() {
               </Stack>
             </CardContent>
           </Card>
-
           <Card>
             <CardContent>
               <Stack spacing={2}>
@@ -148,8 +131,6 @@ export default function Landing() {
           </Card>
         </Box>
       </Container>
-
-      {/* Footer */}
       <Box sx={{ py: 6 }}>
         <Container maxWidth="lg">
           <Stack

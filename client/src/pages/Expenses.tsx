@@ -121,15 +121,12 @@ export default function Expenses() {
     setCategoryId('');
     setOpen(false);
   };
-
   const deleteExpense = async (id: string) => {
     await deleteExpenseMutation({ variables: { id } });
     await refetch();
   };
-
   if (loading) return <CircularProgress />;
   if (error) return <Typography color="error">Error loading expenses</Typography>;
-
   return (
     <Stack spacing={3}>
       <Stack direction="row" justifyContent="space-between" alignItems="center">

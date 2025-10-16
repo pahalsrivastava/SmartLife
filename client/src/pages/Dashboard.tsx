@@ -12,26 +12,22 @@ type Habit = {
   title: string;
   start_date: string;
 };
-
 type HabitLog = {
   id: string;
   habit_id: string;
   date: string;
   completed: boolean;
 };
-
 type Expense = {
   id: string;
   amount: number;
   spent_at: string;
 };
-
 type UserData = {
   habits: Habit[];
   habit_logs: HabitLog[];
   expenses: Expense[];
 };
-
 type QueryResult = {
   users: UserData[];
 };
@@ -63,34 +59,26 @@ export default function Dashboard({ clerkId }: { clerkId: string }) {
   const { data, loading, error } = useQuery<QueryResult>(GET_USER_DATA, {
     variables: { clerkId },
   });
-
   if (loading) return <p>Loading dashboard...</p>;
   if (error) return <p>Error: {error.message}</p>;
-
   const user = data?.users[0];
   if (!user) return <p>No data found for this user.</p>;
-
   const habits = user.habits ?? [];
   const habitLogs = user.habit_logs ?? [];
   const expenses = user.expenses ?? [];
-
   const today = dayjs().format("YYYY-MM-DD");
   const habitsDoneToday = habitLogs.filter(
     (h) => h.completed && h.date === today
   ).length;
-
   const last7 = [...Array(7)].map((_, i) => {
     const d = dayjs().subtract(6 - i, "day");
     const key = d.format("YYYY-MM-DD");
-
     const completed = habitLogs.filter(
       (h) => h.completed && h.date === key
     ).length;
-
     const spent = expenses
       .filter((e) => e.spent_at.slice(0, 10) === key)
       .reduce((acc, e) => acc + Number(e.amount), 0);
-
     return { day: d.format("ddd"), completed, spent: Number(spent.toFixed(2)) };
   });
 
@@ -102,7 +90,6 @@ export default function Dashboard({ clerkId }: { clerkId: string }) {
       <Typography variant="h6" fontFamily="arial" color="text.secondary">
         Here's a summary of your habits and expenses.
       </Typography>
-
       <Stack direction="row" flexWrap="wrap" spacing={3}>
         <Box sx={{ flex: "1 1 300px", minWidth: 300, maxWidth: 500 }}>
           <Card sx={{ p: 3, height: "100%", boxShadow: 4, borderRadius: 3 }}>
@@ -111,8 +98,7 @@ export default function Dashboard({ clerkId }: { clerkId: string }) {
                 direction="row"
                 justifyContent="space-between"
                 alignItems="center"
-                sx={{ mb: 2 }}
-              >
+                sx={{ mb: 2 }}>
                 <Typography variant="h6" fontWeight="bold">
                   Habits Today
                 </Typography>
@@ -127,7 +113,6 @@ export default function Dashboard({ clerkId }: { clerkId: string }) {
             </CardContent>
           </Card>
         </Box>
-
         <Box sx={{ flex: "1 1 300px", minWidth: 300, maxWidth: 500 }}>
           <Card sx={{ p: 3, height: "100%", boxShadow: 4, borderRadius: 3 }}>
             <CardContent sx={{ mt: 2 }}>
@@ -135,8 +120,7 @@ export default function Dashboard({ clerkId }: { clerkId: string }) {
                 direction="row"
                 justifyContent="space-between"
                 alignItems="center"
-                sx={{ mb: 5 }}
-              >
+                sx={{ mb: 5 }}>
                 <Typography variant="h6" sx={{ p: 2 }}>
                   Weekly Progress
                 </Typography>
@@ -151,7 +135,6 @@ export default function Dashboard({ clerkId }: { clerkId: string }) {
             </CardContent>
           </Card>
         </Box>
-
         <Box sx={{ flex: "1 1 300px", minWidth: 300, maxWidth: 500 }}>
           <Card sx={{ p: 3, height: "100%", boxShadow: 4, borderRadius: 3 }}>
             <CardContent>

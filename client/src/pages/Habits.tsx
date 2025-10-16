@@ -73,7 +73,6 @@ interface Habit {
 export default function Habits() {
   const { isLoaded, user } = useUser();
   const today = dayjs().format('YYYY-MM-DD');
-
   const [open, setOpen] = useState(false);
   const [name, setName] = useState('');
   const [frequency, setFrequency] = useState<'daily' | 'weekly'>('daily');
@@ -92,19 +91,15 @@ export default function Habits() {
   interface GetUserHabitsVars {
     clerk_id: string;
   }
-
   const { data, refetch } = useQuery<GetUserHabitsData, GetUserHabitsVars>(GET_USER_HABITS, {
     variables: { clerk_id: user?.id || '' },
     skip: !isLoaded || !user?.id,
   });
-
   const [addHabitMutation] = useMutation(ADD_HABIT);
   const [toggleHabitMutation] = useMutation(TOGGLE_HABIT);
   const [deleteHabitMutation] = useMutation(DELETE_HABIT);
-
   const habits: Habit[] = data?.users?.[0]?.habits || [];
   const user_id: string = data?.users?.[0]?.id || '';
-
   const toggleToday = async (habit_id: string) => {
     if (!user_id) return;
     await toggleHabitMutation({ variables: { habit_id, user_id, date: today } });
