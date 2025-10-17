@@ -1,14 +1,13 @@
-import { AppBar, Box, Button, Container, Stack, Toolbar, Typography, Card, CardContent} from "@mui/material";
+import { AppBar, Box, Button, Container, Stack, Toolbar, Typography, Card, CardContent } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import InsightsIcon from "@mui/icons-material/Insights";
 import { useColorMode } from "../theme/ThemeProvider";
-import { useUser, useClerk, SignInButton, SignUpButton } from "@clerk/clerk-react";
+import { useUser, SignInButton, SignUpButton } from "@clerk/clerk-react";
 
 export default function Landing() {
   const { mode } = useColorMode();
   const { isSignedIn } = useUser();
-  const { signOut } = useClerk();
 
   return (
     <Box>
@@ -19,8 +18,8 @@ export default function Landing() {
           </Typography>
           <Stack direction="row" spacing={1}>
             {isSignedIn ? (
-              <Button color="primary" variant="contained" onClick={() => signOut()}>
-                Sign Out
+              <Button>
+                Sign Up
               </Button>
             ) : (
               <>
@@ -73,15 +72,21 @@ export default function Landing() {
           </Stack>
         </Container>
       </Box>
-      <Container maxWidth="lg" sx={{ py: { xs: 8, md: 12 } }}>
+      <Container maxWidth="lg" sx={{ py: { xs: 8, md: 10 } }}>
         <Box
           sx={{
             display: "grid",
-            gap: 3,
+            gap: 6,
             gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" },
           }}
         >
-          <Card>
+          <Card 
+            sx={{
+              backdropFilter: "blur(10px)",
+              backgroundColor: "rgba(54, 27, 134, 0.26)",
+              boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+            }}
+          >
             <CardContent>
               <Stack spacing={2}>
                 <Stack direction="row" spacing={1} alignItems="center">
@@ -91,13 +96,19 @@ export default function Landing() {
                   </Typography>
                 </Stack>
                 <Typography color="text.secondary" align="center">
-                  SmartLife turns your data into real insight — from AI detecting that 30% of your money goes to coffee,
+                  SmartLife turns your data into real insight that 30% of your money goes to coffee,
                   to predictive budgeting that shows where you're headed next
                 </Typography>
               </Stack>
             </CardContent>
           </Card>
-          <Card>
+          <Card
+          sx={{
+              backdropFilter: "blur(10px)",
+              backgroundColor: "rgba(54, 27, 134, 0.26)",
+              boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+            }}
+          >
             <CardContent>
               <Stack spacing={2}>
                 <Stack direction="row" spacing={1} alignItems="center">
@@ -113,7 +124,13 @@ export default function Landing() {
               </Stack>
             </CardContent>
           </Card>
-          <Card>
+          <Card
+          sx={{
+              backdropFilter: "blur(10px)",
+              backgroundColor: "rgba(54, 27, 134, 0.26)",
+              boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+            }}
+          >
             <CardContent>
               <Stack spacing={2}>
                 <Stack direction="row" spacing={1} alignItems="center">
