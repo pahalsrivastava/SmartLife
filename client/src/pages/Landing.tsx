@@ -97,7 +97,7 @@ export default function Landing() {
                 </Stack>
                 <Typography color="text.secondary" align="center">
                   SmartLife turns your data into real insight that 30% of your money goes to coffee,
-                  to predictive budgeting that shows where you're headed next
+                  to predictive budgeting that shows where you're headed next.
                 </Typography>
               </Stack>
             </CardContent>

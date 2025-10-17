@@ -74,8 +74,7 @@ export default function Reports() {
         <Typography color="error">Error fetching reports: {error}</Typography>
       </Stack>
     );
-
-  // Prepare chart data
+    
   const chartData = Object.entries(
     expenses.reduce<Record<string, number>>((acc, e) => {
       const categoryName = e.category?.name || "Uncategorized";
